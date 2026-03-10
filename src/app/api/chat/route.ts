@@ -2,10 +2,10 @@ import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { messages, model } = await req.json();
-  const apiKey = req.headers.get("x-api-key");
+  const apiKey = process.env.OPENROUTER_API_KEY;
 
   if (!apiKey) {
-    return new Response("API key required", { status: 401 });
+    return new Response("OPENROUTER_API_KEY not configured", { status: 500 });
   }
 
   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {

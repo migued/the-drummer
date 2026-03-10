@@ -15,17 +15,14 @@ interface SettingsModalProps {
 }
 
 export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
-  const [apiKey, setApiKey] = useState("");
   const [model, setModel] = useState(MODELS[0].id);
 
   useEffect(() => {
-    setApiKey(localStorage.getItem("the-drummer-api-key") || "");
-    setModel(localStorage.getItem("the-drummer-model") || "");
+    setModel(localStorage.getItem("the-drummer-model") || MODELS[0].id);
   }, [isOpen]);
 
   function handleSave() {
-    localStorage.setItem("the-drummer-api-key", apiKey);
-    if (model) localStorage.setItem("the-drummer-model", model);
+    localStorage.setItem("the-drummer-model", model);
     onClose();
   }
 
@@ -38,17 +35,6 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-semibold text-white">Settings</h2>
-
-        <div className="space-y-2">
-          <label className="text-sm text-zinc-400">OpenRouter API Key</label>
-          <input
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="sk-or-..."
-            className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:border-orange-500"
-          />
-        </div>
 
         <div className="space-y-2">
           <label className="text-sm text-zinc-400">Model</label>

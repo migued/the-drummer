@@ -60,12 +60,6 @@ export default function Home() {
 
   const sendMessages = useCallback(
     async (conv: Conversation, messages: Message[]) => {
-      const apiKey = localStorage.getItem("the-drummer-api-key");
-      if (!apiKey) {
-        setSettingsOpen(true);
-        return;
-      }
-
       const model = localStorage.getItem("the-drummer-model") || "thedrummer/rocinante-12b";
       setIsLoading(true);
 
@@ -89,7 +83,6 @@ export default function Home() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": apiKey,
           },
           body: JSON.stringify({
             messages: messages.map((m) => ({ role: m.role, content: m.content })),
