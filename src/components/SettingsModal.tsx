@@ -2,6 +2,13 @@
 
 import { useState, useEffect } from "react";
 
+const MODELS = [
+  { id: "thedrummer/rocinante-12b", name: "Rocinante 12B" },
+  { id: "thedrummer/cydonia-24b-v4.1", name: "Cydonia 24B V4.1" },
+  { id: "thedrummer/skyfall-36b-v2", name: "Skyfall 36B V2" },
+  { id: "thedrummer/unslopnemo-12b", name: "UnslopNemo 12B" },
+];
+
 interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -9,7 +16,7 @@ interface SettingsModalProps {
 
 export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   const [apiKey, setApiKey] = useState("");
-  const [model, setModel] = useState("");
+  const [model, setModel] = useState(MODELS[0].id);
 
   useEffect(() => {
     setApiKey(localStorage.getItem("the-drummer-api-key") || "");
@@ -45,16 +52,33 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
 
         <div className="space-y-2">
           <label className="text-sm text-zinc-400">Model</label>
-          <input
-            type="text"
-            value={model}
-            onChange={(e) => setModel(e.target.value)}
-            placeholder="e.g. google/gemini-pro-1.5"
-            className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:border-orange-500"
-          />
-          <p className="text-xs text-zinc-600">
-            Check <a href="https://openrouter.ai/models" target="_blank" rel="noopener" className="text-orange-400 hover:underline">openrouter.ai/models</a> for available models
-          </p>
+          <div className="space-y-2">
+            {MODELS.map((m) => (
+              <button
+                key={m.id}
+                onClick={() => setModel(m.id)}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg border text-sm text-left transition-colors ${
+                  model === m.id
+                    ? "border-orange-500 bg-orange-500/10 text-white"
+                    : "border-zinc-700 bg-zinc-800 text-zinc-300 hover:border-zinc-600"
+                }`}
+              >
+                <div
+                  className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                    model === m.id ? "border-orange-500" : "border-zinc-600"
+                  }`}
+                >
+                  {model === m.id && (
+                    <div className="w-2 h-2 rounded-full bg-orange-500" />
+                  )}
+                </div>
+                <div>
+                  <div className="font-medium">{m.name}</div>
+                  <div className="text-xs text-zinc-500">{m.id}</div>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="flex gap-3 pt-2">

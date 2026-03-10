@@ -66,7 +66,7 @@ export default function Home() {
         return;
       }
 
-      const model = localStorage.getItem("the-drummer-model") || "openai/gpt-3.5-turbo";
+      const model = localStorage.getItem("the-drummer-model") || "thedrummer/rocinante-12b";
       setIsLoading(true);
 
       const updatedMessages: Message[] = [

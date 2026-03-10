@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: model || "openai/gpt-3.5-turbo",
+      model: model || "thedrummer/rocinante-12b",
       messages,
       stream: true,
     }),
